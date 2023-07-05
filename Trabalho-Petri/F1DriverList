@@ -1,0 +1,239 @@
+package Trabmatriz;
+
+import java.util.Scanner;
+
+public class ListaPilotos {
+    public static void inserirPilotos(String[][] matriz, int linhas, int colunas) {
+        Scanner scanner = new Scanner(System.in);
+        int linha;
+        mostrarPilotos(matriz, linhas, colunas);
+        do {
+            System.out.println("Informe a posição onde você deseja inserir o piloto com valores de 1 à " + linhas + "!");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Entrada inválida. Por favor, insira um valor de 1 á " + linhas + "!");
+                scanner.next();
+            }
+            linha = scanner.nextInt();
+
+            if (linha < 1 || linha > linhas) {
+                System.out.println("Entrada inválida. Por favor, insira um valor de 1 á " + linhas + "!");
+                linha = scanner.nextInt();
+            }
+        } while (linha < 1 || linha > linhas);
+
+        System.out.print("\nNome do piloto:");
+        matriz[linha - 1][0] = scanner.next();
+        System.out.print("Velocidade maxima do piloto:");
+        matriz[linha - 1][1] = scanner.next();
+        System.out.print("Tempo de volta do piloto em minutos e segundos <0.00>:");
+        matriz[linha - 1][2] = scanner.next();
+        System.out.println("Piloto adicionado.");
+    }
+    public static void mostrarPilotos(String[][] matriz, int linhas, int colunas) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("\n|Posição | Piloto | Velocidade Máxima | Tempo de Volta |");
+        for (int i = 0; i < linhas; i++) {
+            System.out.print("P" + (i + 1) + " - ");
+            for (int j = 0; j < colunas; j++) {
+                System.out.print(matriz[i][j] + " | ");
+
+            }
+            System.out.println();
+        }
+    }
+    public static void removerPiloto(String[][] matriz, int linhas, String nomePiloto) {
+        boolean encontrado = false;
+        for (int i = 0; i < linhas; i++) {
+            if (matriz[i][0] != null && matriz[i][0].equals(nomePiloto)) {
+                encontrado = true;
+                matriz[i][0] = null;
+                matriz[i][1] = null;
+                matriz[i][2] = null;
+            }
+        }
+        if (encontrado) { // if (encontrado == true) {
+            System.out.println("Piloto removido.");
+        } else {
+            System.out.println("Piloto não encontrado - Verifique se o piloto foi inserido ou se o nome foi digitado corretamente!");
+        }
+    }
+    public static String[] calcularVelocidadeMaxima(String[][] matriz, int linhas, int colunas) {
+        float velocidadeMaxima = 0.0f;
+        String[] pilotoVelocidadeMaxima = new String[2]; // [0] - nome do piloto, [1] - velocidade
+
+        for (int i = 0; i < linhas; i++) {
+            if (matriz[i][1] != null) {
+                float velocidade = Float.parseFloat(matriz[i][1]);
+                if (velocidade > velocidadeMaxima) {
+                    velocidadeMaxima = velocidade;
+                    pilotoVelocidadeMaxima[0] = matriz[i][0]; // nome do piloto
+                    pilotoVelocidadeMaxima[1] = matriz[i][1]; // velocidade
+                }
+            }
+        }
+        return pilotoVelocidadeMaxima;
+    }
+    public static String[] calcularMenorTempoVolta(String[][] matriz, int linhas, int colunas) {
+        float menorTempoVolta = Float.MAX_VALUE;
+        String nomeMelhorVolta = "";
+
+        for (int i = 0; i < linhas; i++) {
+            if (matriz[i][2] != null) {
+                float tempoVolta = Float.parseFloat(matriz[i][2]);
+                if (tempoVolta < menorTempoVolta) {
+                    menorTempoVolta = tempoVolta;
+                    nomeMelhorVolta = matriz[i][0];
+                }
+            }
+        }
+
+        if (nomeMelhorVolta.isEmpty()) {
+            return new String[]{};
+        } else {
+            return new String[]{String.valueOf(menorTempoVolta), nomeMelhorVolta};
+        }
+    }
+    public static void ordenarPorMenorTempoVolta(String[][] matriz, int linhas, int colunas) {
+        int contadorVoltasRegistradas = 0;
+
+        for (int i = 0; i < linhas; i++) {
+            if (matriz[i][2] != null) {
+                contadorVoltasRegistradas++;
+            }
+        }
+
+        if (contadorVoltasRegistradas == 0) {
+            System.out.println("Nenhuma volta registrada. Não é possível ordenar.");
+            return;
+        }
+
+        for (int i = 0; i < linhas; i++) {
+            for (int j = i + 1; j < linhas; j++) {
+                if (matriz[i][2] != null && matriz[j][2] != null) {
+                    float tempoVolta1 = Float.parseFloat(matriz[i][2]);
+                    float tempoVolta2 = Float.parseFloat(matriz[j][2]);
+                    if (tempoVolta2 < tempoVolta1) {
+                        // Trocar as linhas i e j
+                        String[] temp = matriz[i];
+                        matriz[i] = matriz[j];
+                        matriz[j] = temp;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < linhas - 1; i++) {
+            if (matriz[i][0] == null) {
+                for (int j = i; j < linhas - 1; j++) {
+                    matriz[j] = matriz[j + 1];
+                }
+                matriz[linhas - 1] = new String[colunas];
+                i--;
+            }
+        }
+    }
+    public static void buscarPiloto(String[][] matriz, int linhas, String nomePiloto) {
+        boolean encontrado = false;
+        for (int i = 0; i < linhas; i++) {
+            if (matriz[i][0] != null && matriz[i][0].equalsIgnoreCase(nomePiloto)) {
+                encontrado = true;
+                System.out.println("\nInformações do piloto:");
+                System.out.println("Nome: " + matriz[i][0] + " - Velocidade Máxima: " + matriz[i][1] + " KM/H" + " - Tempo de Volta: " + matriz[i][2]);
+                break;
+            }
+        }
+        if (!encontrado) {
+            System.out.println("Piloto não encontrado - Verifique se o piloto foi inserido ou se o nome foi digitado corretamente!");
+        }
+    }
+
+    public static int reinserirQuantidadePilotos() {
+        Scanner scanner = new Scanner(System.in);
+        int pilotos;
+
+        do {
+
+            System.out.println("\nAtenção - O regulamento permite no máximo 20 pilotos no Grid!");
+            System.out.println("Insira a nova quantidade de pilotos a serem inseridos no Grid:");
+            pilotos = scanner.nextInt();
+            if (pilotos < 0 || pilotos > 20) {
+                System.out.println("\nVocê inseriu uma quantidade inválida de pilotos, verifique se não inseriu um número negativo, ou passou do limite de carros no grid!");
+            }
+        } while (pilotos < 0 || pilotos > 20);
+
+        return pilotos;
+    }
+
+    public static void main(String[] args) {
+        String[][] lista;
+        int pilotos, opcao;
+        int colunas = 3;
+        Scanner scanner = new Scanner(System.in);
+        String nomePiloto;
+
+        do {
+
+
+            System.out.println("\nAtenção - O regulamento permite no máximo 20 pilotos no Grid!");
+            System.out.println("Insira a quantidade de pilotos a serem inseridos no Grid:");
+            pilotos = scanner.nextInt();
+            if (pilotos < 00 || pilotos > 20) {
+                System.out.println("\nVocê inseriu uma quantidade inválida de pilotos, verifique se não inseriu um número negativo, ou passou do limite de carros no grid!");
+            }
+        } while (pilotos < 0 || pilotos > 20);
+
+        lista = new String[pilotos][colunas];
+        String[] maxima = new String[colunas];
+
+        do {
+            System.out.println("\nEscolha uma opção: \n 1 - Mostrar Grid. \n 2 - Inserir pilotos no Grid. \n 3 - Remover piloto do Grid.\n 4 - Calcula velocidade maxima. \n 5 - Calcula melhor volta. \n 6 - Ordena por melhor volta. \n 7 - Busca Piloto. \n 8 - Reinserir a Quantidade de Pilotos. \n 0 - Sair.");
+            System.out.print(" Opção:");
+            opcao = scanner.nextInt();
+            switch (opcao) {
+                case 0:
+                    break;
+                case 1:
+                    mostrarPilotos(lista, pilotos, colunas);
+                    break;
+                case 2:
+                    inserirPilotos(lista, pilotos, colunas);
+                    break;
+                case 3:
+                    System.out.print("Insira o nome piloto a ser removido:");
+                    nomePiloto = scanner.next();
+                    removerPiloto(lista, pilotos, nomePiloto);
+                    break;
+                case 4:
+                    String[] pilotoVelocidadeMaxima = calcularVelocidadeMaxima(lista, pilotos, colunas);
+                    if (pilotoVelocidadeMaxima[0] != null && pilotoVelocidadeMaxima[1] != null) {
+                        System.out.println("Velocidade Maxima registrada: " + pilotoVelocidadeMaxima[1] + " KM/H" + " alcançada pelo Piloto: " + pilotoVelocidadeMaxima[0]);
+                    } else {
+                        System.out.println("Nenhuma velocidade registrada.");
+                    }
+                    break;
+                case 5:
+                    String[] resultadoMelhorVolta = calcularMenorTempoVolta(lista, pilotos, colunas);
+                    if (resultadoMelhorVolta.length == 0) {
+                        System.out.println("Nenhuma volta registrada.");
+                    } else {
+                        System.out.println("Melhor volta registrada: " + resultadoMelhorVolta[0] + " realizada pelo Piloto: " + resultadoMelhorVolta[1]);
+                    }
+                case 6:
+                    ordenarPorMenorTempoVolta(lista, pilotos, colunas);
+                    break;
+                case 7:
+                    System.out.println("Insira o nome do piloto que deseja buscar: ");
+                    nomePiloto = scanner.next();
+                    buscarPiloto(lista, pilotos, nomePiloto);
+                    break;
+                case 8:
+                    pilotos = reinserirQuantidadePilotos();
+                    lista = new String[pilotos][colunas];
+                    break;
+
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (opcao != 0);
+    }
+}
