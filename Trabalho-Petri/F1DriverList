@@ -2,6 +2,16 @@ package Trabmatriz;
 
 import java.util.Scanner;
 
+/* Observações - João Pedro :)
+    Fiz esse código inspirado no mundo da Fórmula 1 e do Automobilismo, o sistema é simples, onde a matriz armazena, o nome, a velocidade máxima, e o tempo de volta do piloto.
+    O Programa deve permitir que você insira o nome do piloto, o tempo de volta, e a velocidade máxima.
+    A Posição é correspondida pelo Índice, portanto para alinhar o GRID corretamente considerando os tempos de volta você deve utilizar a função ordenarPorMenorTempoVolta.
+    O Programa deve exibir a velocidade máxima registrada por um piloto, bem como a melhor volta.
+    Melhor volta significa o menor tempo em que o circuito foi percorrido, portanto quanto menor o valor digitado pelo usuário, melhor a volta.
+    Atenção ao tempo de volta - Originalmente os tempos são medidos em Minutos.Segundos.Milisssegundos, portanto pela limitação do float ao comparar as voltas só consegui implementar usando o metodo Minutos.Segundos.
+    Originalmente na Fórmula 1 atual, o máximo de carros é de 20, 1 para cada piloto, portanto limitei a inserção de no máximo 20 linhas.
+ */
+
 public class ListaPilotos {
     public static void inserirPilotos(String[][] matriz, int linhas, int colunas) {
         Scanner scanner = new Scanner(System.in);
@@ -154,7 +164,7 @@ public class ListaPilotos {
         do {
 
             System.out.println("\nAtenção - O regulamento permite no máximo 20 pilotos no Grid!");
-            System.out.println("Insira a nova quantidade de pilotos a serem inseridos no Grid:");
+            System.out.print("Insira a nova quantidade de pilotos a serem inseridos no Grid:");
             pilotos = scanner.nextInt();
             if (pilotos < 0 || pilotos > 20) {
                 System.out.println("\nVocê inseriu uma quantidade inválida de pilotos, verifique se não inseriu um número negativo, ou passou do limite de carros no grid!");
@@ -175,7 +185,7 @@ public class ListaPilotos {
 
 
             System.out.println("\nAtenção - O regulamento permite no máximo 20 pilotos no Grid!");
-            System.out.println("Insira a quantidade de pilotos a serem inseridos no Grid:");
+            System.out.print("Insira a quantidade de pilotos a serem inseridos no Grid:");
             pilotos = scanner.nextInt();
             if (pilotos < 00 || pilotos > 20) {
                 System.out.println("\nVocê inseriu uma quantidade inválida de pilotos, verifique se não inseriu um número negativo, ou passou do limite de carros no grid!");
@@ -237,3 +247,4 @@ public class ListaPilotos {
         } while (opcao != 0);
     }
 }
+
