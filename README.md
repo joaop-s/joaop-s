@@ -1,5 +1,5 @@
 <h1 align="center">Hi! I'm John :)</h1>
-<h3 align="center">I'm a Software Engineering student, my main goal is to be a great Software Engineer, mainly working on Web Development (specially in front-end), AI, Computer vision, CGI, and more.</h3>
+<h3 align="center">I'm a Software Engineering student, my main goal is to be a UI UX Designer and focus in Front-End Development.</h3>
 
 - 📫 How to reach me **joaopedro@edu.unifil.br**
 - 🏫 Studying at **UNIFIL - Londrina**
